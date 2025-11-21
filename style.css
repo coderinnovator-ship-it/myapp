@@ -1,0 +1,37 @@
+/* Basic styling for ZETRA Core */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #05080F;
+    color: white;
+}
+
+.container {
+    width: 90%;
+    max-width: 420px;
+    margin: 100px auto;
+    padding: 30px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 16px;
+    text-align: center;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.primary {
+    background: #007BFF;
+    color: white;
+}
+
+.secondary {
+    background: #111;
+    color: #ddd;
+}
