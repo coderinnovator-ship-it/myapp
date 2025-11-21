@@ -1,372 +1,88 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ZETRA — Identity</title>
-  <meta name="theme-color" content="#01050a" />
-  <style>
-    :root{
-      --bg:#01050a;
-      --panel:#071023;
-      --accent:#0ea5ff;
-      --accent-2:#1e90ff;
-      --muted:#9aa6b2;
-      --glass: rgba(255,255,255,0.03);
-      --danger:#ef4444;
-      --success:#10b981;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,Arial,sans-serif;
-      background:linear-gradient(180deg,var(--bg),#000);
-      color:#fff;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
-    }
-    .card{
-      width:100%;
-      max-width:520px;
-      background:linear-gradient(180deg,var(--panel), #05060a);
-      border-radius:14px;
-      padding:28px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    header{ text-align:center; margin-bottom:18px }
-    h1{ margin:0; font-size:34px; letter-spacing:3px }
-    p.lead{ color:var(--muted); margin-top:8px; font-size:15px }
-    .controls{ display:flex; gap:12px; justify-content:center; margin-top:18px; flex-wrap:wrap }
-    .btn{
-      background:var(--accent);
-      color:#021026;
-      border:none;
-      padding:12px 20px;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(14,165,255,0.12);
-    }
-    .btn.ghost{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.06);
-      color:var(--muted);
-      font-weight:600;
-    }
-    .btn.danger{ background:var(--danger); color:#fff; box-shadow:none }
-    .id-card{
-      margin-top:22px;
-      padding:18px;
-      border-radius:10px;
-      background:var(--glass);
-      display:flex;
-      gap:14px;
-      align-items:center;
-      flex-direction:column;
-      text-align:center;
-    }
-    .avatar{
-      width:72px; height:72px; border-radius:12px;
-      background:linear-gradient(135deg,var(--accent),#7cf0ff);
-      display:flex; align-items:center; justify-content:center;
-      color:#021026; font-weight:800; font-size:28px;
-      margin:0 auto;
-    }
-    .meta{ width:100% }
-    .meta .label{ color:var(--muted); font-size:13px }
-    .meta .value{ font-size:18px; margin-top:8px; font-weight:800; letter-spacing:1px; word-break:break-word }
-    .muted-small{ color:var(--muted); font-size:13px; margin-top:8px }
-    footer { text-align:center; margin-top:18px; color:var(--muted); font-size:13px }
-    .card-actions{ display:flex; gap:12px; justify-content:center; margin-top:14px; flex-wrap:wrap }
-    /* modal */
-    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:40 }
-    .modal{ width:100%; max-width:420px; background:#0b0b0d; border-radius:12px; padding:18px; border:1px solid rgba(255,255,255,0.04) }
-    .modal h3{ margin:0 0 10px 0 }
-    .field{ margin-bottom:10px }
-    .field label{ display:block; color:var(--muted); font-size:13px; margin-bottom:6px }
-    .field input{ width:100%; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); color:#fff; outline:none }
-    .color-pallet{ display:flex; gap:8px; margin:8px 0 }
-    .color-swatch{ width:36px; height:36px; border-radius:8px; cursor:pointer; border:2px solid rgba(255,255,255,0.03) }
-    .small{ font-size:13px }
-    .hidden{ display:none !important }
-    @media (max-width:420px){ .card{ padding:18px } h1{font-size:28px} .avatar{width:60px;height:60px} .modal{margin:16px} }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zetra Identity</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #050505;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        p {
+            opacity: 0.8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 380px;
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px #000;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            background: #0f62fe;
+            padding: 14px;
+            border: none;
+            color: white;
+            margin-top: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #resultBox {
+            margin-top: 18px;
+            padding: 12px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            display: none;
+            font-size: 15px;
+            line-height: 1.4rem;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
-  <div class="card" role="main" aria-live="polite">
-    <header>
-      <h1>ZETRA</h1>
-      <p class="lead">One ID. One World. One You. Activate your Zetra identity — private, portable, future-ready.</p>
-    </header>
 
-    <div style="text-align:center">
-      <div class="controls">
-        <button class="btn" id="createBtn">Create my Zetra ID</button>
-        <button class="btn ghost" id="recoverBtn">Recover / Load</button>
-      </div>
+    <h1>ZETRA</h1>
+    <p>One ID. One World. One You.</p>
 
-      <div id="notice" class="muted-small" style="margin-top:12px">No account required. Your identity stays on your device unless you choose to share it.</div>
+    <div class="container">
+        <input id="username" type="text" placeholder="Enter your name" required>
+        <button onclick="generateID()">Create my Zetra ID</button>
+
+        <div id="resultBox"></div>
     </div>
 
-    <!-- identity card -->
-    <div id="cardWrap" class="hidden" role="region" aria-label="Zetra identity card">
-      <div class="id-card" id="idCard">
-        <div class="avatar" id="avatar">Z</div>
-        <div class="meta">
-          <div class="label">Zetra ID</div>
-          <div class="value" id="zetraId">—</div>
-          <div class="muted-small" id="createdAt">—</div>
-        </div>
-        <div class="card-actions">
-          <button class="btn" id="exportBtn">Export Profile</button>
-          <button class="btn ghost" id="copyBtn">Copy ID</button>
-          <button class="btn ghost" id="resetBtn">Reset</button>
-        </div>
-      </div>
-    </div>
-
-    <footer>© 2025 Zetra Core</footer>
-  </div>
-
-  <!-- hidden file input for recover -->
-  <input id="fileInput" type="file" accept="application/json" class="hidden" />
-
-  <!-- modal overlay -->
-  <div id="overlay" class="overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">Create Identity</h3>
-
-      <form id="createForm" autocomplete="off">
-        <div class="field">
-          <label for="fullName">Name:</label>
-          <input id="fullName" name="fullName" type="text" placeholder="Your name" required />
-        </div>
-        <div class="field">
-          <label for="username">Username:</label>
-          <input id="username" name="username" type="text" placeholder="username" required />
-        </div>
-        <div class="field">
-          <label for="password">Password (optional):</label>
-          <input id="password" name="password" type="password" placeholder="password (for export protection)" />
-        </div>
-
-        <div style="display:flex;gap:8px; margin-top:12px">
-          <button type="submit" class="btn" id="modalCreate">Create</button>
-          <button type="button" class="btn ghost" id="modalCancel">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    // Utilities
-    const $ = sel => document.querySelector(sel);
-    const qs = sel => Array.from(document.querySelectorAll(sel));
-
-    // Elements
-    const createBtn = $('#createBtn');
-    const recoverBtn = $('#recoverBtn');
-    const overlay = $('#overlay');
-    const modalCancel = $('#modalCancel');
-    const createForm = $('#createForm');
-    const fileInput = $('#fileInput');
-    const cardWrap = $('#cardWrap');
-    const avatar = $('#avatar');
-    const zetraIdEl = $('#zetraId');
-    const createdAtEl = $('#createdAt');
-    const exportBtn = $('#exportBtn');
-    const copyBtn = $('#copyBtn');
-    const resetBtn = $('#resetBtn');
-
-    const STORAGE_KEY = 'zetra_profile_v1';
-
-    // ID generator: ZET-XXXX-XXXX-XXXX (alphanumeric)
-    function genSegment(len=4){
-      const chars = 'ABCDEFGHJKMNPQRSTWXYZ23456789'; // friendly charset
-      let s = '';
-      for(let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)];
-      return s;
-    }
-    function generateZetraId(){
-      return 'ZET-' + genSegment() + '-' + genSegment() + '-' + genSegment();
-    }
-
-    // Format date
-    function formatDate(ts){
-      const d = new Date(ts);
-      return d.toLocaleString();
-    }
-
-    // Show modal
-    function openModal(){
-      overlay.style.display = 'flex';
-      overlay.setAttribute('aria-hidden','false');
-      $('#fullName').focus();
-    }
-    function closeModal(){
-      overlay.style.display = 'none';
-      overlay.setAttribute('aria-hidden','true');
-    }
-
-    // Save profile to localStorage & UI
-    function saveProfile(profile){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-      renderProfile(profile);
-    }
-
-    // Render identity UI
-    function renderProfile(profile){
-      if(!profile){
-        cardWrap.classList.add('hidden');
-        return;
-      }
-      avatar.textContent = (profile.name || 'Z').trim().charAt(0).toUpperCase() || 'Z';
-      zetraIdEl.textContent = profile.zid;
-      createdAtEl.textContent = 'Created: ' + formatDate(profile.createdAt);
-      cardWrap.classList.remove('hidden');
-    }
-
-    // Load profile from storage on start
-    function loadProfileFromStorage(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(!raw) return null;
-        return JSON.parse(raw);
-      }catch(e){ return null; }
-    }
-
-    // Export profile as JSON (download)
-    function exportProfile(profile){
-      if(!profile) return alert('No profile to export');
-      const filename = (profile.username || 'zetra') + '-zetra.json';
-      const blob = new Blob([JSON.stringify(profile, null, 2)], {type: 'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    // Handle create form submit
-    createForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = $('#fullName').value.trim();
-      const username = $('#username').value.trim();
-      const password = $('#password').value; // optional
-      if(!name || !username){
-        // required fields
-        alert('Please fill both name and username.');
-        return;
-      }
-      // generate id
-      const zid = generateZetraId();
-      const profile = {
-        name, username, password: password || null,
-        zid,
-        createdAt: Date.now()
-      };
-      saveProfile(profile);
-      closeModal();
-      // small success dialog and update
-      setTimeout(()=> alert('Zetra ID Created Successfully!'), 50);
-    });
-
-    // Create / open modal, or if profile exists show card
-    createBtn.addEventListener('click', () => {
-      const existing = loadProfileFromStorage();
-      // if existing show card quickly and also open modal if they want to create new
-      if(existing){
-        renderProfile(existing);
-        // open modal to allow new creation if they want
-        openModal();
-        // prefill with existing name/username
-        $('#fullName').value = existing.name || '';
-        $('#username').value = existing.username || '';
-      } else {
-        openModal();
-      }
-    });
-
-    // Recover button
-    recoverBtn.addEventListener('click', () => fileInput.click());
-
-    // file input change (recover)
-    fileInput.addEventListener('change', async (evt) => {
-      const f = evt.target.files && evt.target.files[0];
-      if(!f) return;
-      try{
-        const txt = await f.text();
-        const obj = JSON.parse(txt);
-        // basic validation
-        if(!obj.zid || !obj.name){
-          alert('That file does not look like a Zetra profile.');
-          return;
-        }
-        saveProfile(obj);
-        alert('Profile recovered successfully!');
-      }catch(err){
-        alert('Could not read file: ' + err.message);
-      } finally {
-        fileInput.value = '';
-      }
-    });
-
-    // modal cancel
-    modalCancel.addEventListener('click', () => {
-      closeModal();
-    });
-
-    // export
-    exportBtn.addEventListener('click', () => {
-      const p = loadProfileFromStorage();
-      exportProfile(p);
-    });
-
-    // copy id
-    copyBtn.addEventListener('click', async () => {
-      const p = loadProfileFromStorage();
-      if(!p){ alert('No identity'); return; }
-      try{
-        await navigator.clipboard.writeText(p.zid);
-        alert('Zetra ID copied to clipboard');
-      }catch(e){
-        alert('Copy failed: ' + e.message);
-      }
-    });
-
-    // reset
-    resetBtn.addEventListener('click', () => {
-      if(!confirm('Reset will remove the local identity. Continue?')) return;
-      localStorage.removeItem(STORAGE_KEY);
-      renderProfile(null);
-      alert('Reset complete');
-    });
-
-    // close modal on overlay click (but not when clicking inside modal)
-    overlay.addEventListener('click', (ev) => {
-      if(ev.target === overlay) closeModal();
-    });
-
-    // On load: render if exists
-    (function init(){
-      const profile = loadProfileFromStorage();
-      if(profile) renderProfile(profile);
-    })();
-
-    // keyboard: escape to close modal
-    window.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape') closeModal();
-    });
-  </script>
+    <script src="app.js"></script>
 </body>
 </html>
