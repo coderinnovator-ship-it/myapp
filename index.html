@@ -3,71 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zetra Identity</title>
+    <title>ZETRA - Identity</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
+            background: #000;
+            color: white;
             font-family: Arial, sans-serif;
-            background: #050505;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            text-align: center;
+            padding: 40px;
         }
-
-        h1 {
-            margin-bottom: 10px;
-            font-size: 32px;
-            letter-spacing: 1px;
-        }
-
-        p {
-            opacity: 0.8;
-        }
-
-        .container {
+        .input-box {
             width: 90%;
-            max-width: 380px;
-            background: #111;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 0 30px #000;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 12px;
-            border-radius: 8px;
+            max-width: 350px;
+            padding: 15px;
+            border-radius: 10px;
             border: none;
-            outline: none;
-            font-size: 16px;
+            margin-top: 20px;
+            font-size: 18px;
         }
-
-        button {
-            width: 100%;
-            background: #0f62fe;
-            padding: 14px;
+        .btn {
+            width: 90%;
+            max-width: 350px;
+            padding: 15px;
+            background: #3B82F6;
             border: none;
+            border-radius: 10px;
             color: white;
-            margin-top: 15px;
-            font-size: 16px;
-            border-radius: 8px;
+            font-size: 20px;
+            margin-top: 20px;
             cursor: pointer;
         }
-
         #resultBox {
-            margin-top: 18px;
-            padding: 12px;
-            background: #1a1a1a;
-            border-radius: 8px;
             display: none;
-            font-size: 15px;
-            line-height: 1.4rem;
-            word-wrap: break-word;
+            background: #111;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 12px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -76,13 +48,32 @@
     <h1>ZETRA</h1>
     <p>One ID. One World. One You.</p>
 
-    <div class="container">
-        <input id="username" type="text" placeholder="Enter your name" required>
-        <button onclick="generateID()">Create my Zetra ID</button>
+    <input type="text" id="username" class="input-box" placeholder="Enter your name">
+    
+    <button class="btn" onclick="generateID()">Create my Zetra ID</button>
 
-        <div id="resultBox"></div>
-    </div>
+    <div id="resultBox"></div>
 
-    <script src="app.js"></script>
+    <script>
+        function generateID() {
+            const name = document.getElementById("username").value.trim();
+
+            if (!name) {
+                alert("Please enter your name first.");
+                return;
+            }
+
+            const unique = Math.random().toString(36).substring(2, 10).toUpperCase();
+            const zetraID = `${name}-${unique}`;
+
+            const box = document.getElementById("resultBox");
+            box.style.display = "block";
+            box.innerHTML = `
+                <strong>Your Zetra ID:</strong><br><br>
+                ${zetraID}
+            `;
+        }
+    </script>
+
 </body>
 </html>
