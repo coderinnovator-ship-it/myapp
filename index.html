@@ -1,121 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ZETRA — Identity</title>
-  <style>
-    :root{
-      --bg:#01050a;
-      --panel:#071023;
-      --accent:#0ea5ff;
-      --muted:#9aa6b2;
-      --glass: rgba(255,255,255,0.03);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,Arial,sans-serif;
-      background:linear-gradient(180deg,var(--bg),#000);
-      color:#fff;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
-    }
-    .card{
-      width:100%;
-      max-width:520px;
-      background:linear-gradient(180deg,var(--panel), #05060a);
-      border-radius:14px;
-      padding:28px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    header{ text-align:center; margin-bottom:18px }
-    h1{ margin:0; font-size:34px; letter-spacing:3px }
-    p.lead{ color:var(--muted); margin-top:8px; font-size:15px }
-    .controls{ display:flex; gap:12px; justify-content:center; margin-top:18px; flex-wrap:wrap }
-    .btn{
-      background:var(--accent);
-      color:#021026;
-      border:none;
-      padding:12px 20px;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(14,165,255,0.12);
-    }
-    .btn.ghost{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.06);
-      color:var(--muted);
-      font-weight:600;
-    }
-    .id-card{
-      margin-top:22px;
-      padding:18px;
-      border-radius:10px;
-      background:var(--glass);
-      display:flex;
-      gap:14px;
-      align-items:center;
-    }
-    .avatar{
-      width:72px; height:72px; border-radius:12px;
-      background:linear-gradient(135deg,var(--accent),#7cf0ff);
-      display:flex; align-items:center; justify-content:center;
-      color:#021026; font-weight:800; font-size:20px;
-    }
-    .meta{ flex:1 }
-    .meta .label{ color:var(--muted); font-size:13px }
-    .meta .value{ font-size:16px; margin-top:4px; font-weight:700 }
-    .muted-small{ color:var(--muted); font-size:13px; margin-top:8px }
-    footer { text-align:center; margin-top:18px; color:var(--muted); font-size:13px }
-    @media (max-width:420px){ .card{ padding:18px } h1{font-size:28px} .avatar{width:60px;height:60px} }
-  </style>
+  <title>ZETRA — One ID. One World. One You.</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="card" role="main">
-    <header>
-      <h1>ZETRA</h1>
-      <p class="lead">One ID. One World. One You. Activate your Zetra identity — private, portable, future-ready.</p>
-    </header>
+  <main class="wrap">
+    <section class="card">
+      <header class="card-head">
+        <div class="brand">ZETRA</div>
+        <div class="tag">One ID. One World. One You.</div>
+      </header>
 
-    <div style="text-align:center">
+      <p class="lead">Activate your Zetra identity — private, portable, future-ready.</p>
+
       <div class="controls">
-        <button class="btn" id="createBtn">Create my Zetra ID</button>
-        <button class="btn ghost" id="recoverBtn">Recover / Load</button>
+        <button id="createBtn" class="btn primary">Create my Zetra ID</button>
+        <button id="recoverBtn" class="btn ghost">Recover / Load</button>
       </div>
 
-      <div id="notice" class="muted-small" style="margin-top:12px">No account required. Your identity stays on your device unless you choose to share it.</div>
-    </div>
+      <div id="notice" class="muted">No account required. Your identity stays on your device unless you choose to share it.</div>
 
-    <!-- identity card -->
-    <div id="cardWrap" style="display:none">
-      <div class="id-card" id="idCard">
-        <div class="avatar" id="avatar">Z</div>
-        <div class="meta">
-          <div class="label">Zetra ID</div>
-          <div class="value" id="zetraId">—</div>
-          <div class="muted-small" id="createdAt">—</div>
+      <!-- identity card (hidden until created) -->
+      <div id="cardWrap" class="idwrap hidden">
+        <div class="idcard">
+          <div class="avatar" id="avatar">Z</div>
+          <div class="meta">
+            <div class="label">Zetra ID</div>
+            <div class="value" id="zetraId">—</div>
+            <div class="small" id="createdAt">—</div>
+          </div>
+          <div class="actions-col">
+            <button class="btn ghost small" id="copyBtn">Copy</button>
+          </div>
         </div>
-        <div>
-          <button class="btn ghost" id="copyBtn">Copy</button>
+
+        <div class="card-actions">
+          <button class="btn primary" id="exportBtn">Export Profile</button>
+          <button class="btn ghost" id="resetBtn">Reset</button>
         </div>
       </div>
-      <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
-        <button class="btn" id="exportBtn">Export Profile</button>
-        <button class="btn ghost" id="resetBtn">Reset</button>
-      </div>
-    </div>
 
-    <footer>© 2025 Zetra Core</footer>
+      <footer class="foot">© 2025 Zetra Core</footer>
+    </section>
+  </main>
+
+  <!-- SETUP MODAL -->
+  <div id="setupModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <h2>Create your Zetra identity</h2>
+      <p class="muted">We will generate a secure identity file you can save and import anytime.</p>
+
+      <form id="setupForm" class="form">
+        <label>Display name
+          <input id="displayName" type="text" placeholder="e.g. Connect" maxlength="32" required />
+        </label>
+
+        <div class="color-row">
+          <label class="color-option"><input type="radio" name="color" value="#0ea5ff" checked><span style="background:#0ea5ff"></span></label>
+          <label class="color-option"><input type="radio" name="color" value="#7c3aed"><span style="background:#7c3aed"></span></label>
+          <label class="color-option"><input type="radio" name="color" value="#22c55e"><span style="background:#22c55e"></span></label>
+          <label class="color-option"><input type="radio" name="color" value="#f59e0b"><span style="background:#f59e0b"></span></label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Continue</button>
+          <button type="button" id="cancelSetup" class="btn ghost">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
+
+  <!-- HIDDEN FILE INPUT for recover -->
+  <input id="fileInput" type="file" accept=".json,.zetra.json,application/json" style="display:none" />
 
   <script src="app.js"></script>
 </body>
-            </html>
+  </html>
