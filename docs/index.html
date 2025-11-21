@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZETRA - Identity</title>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        .input-box {
+            width: 90%;
+            max-width: 350px;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .btn {
+            width: 90%;
+            max-width: 350px;
+            padding: 15px;
+            background: #3B82F6;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        #resultBox {
+            display: none;
+            background: #111;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
 
+    <h1>ZETRA</h1>
+    <p>One ID. One World. One You.</p>
+
+    <input type="text" id="username" class="input-box" placeholder="Enter your name">
+    
+    <button class="btn" onclick="generateID()">Create my Zetra ID</button>
+
+    <div id="resultBox"></div>
+
+    <script>
+        function generateID() {
+            const name = document.getElementById("username").value.trim();
+
+            if (!name) {
+                alert("Please enter your name first.");
+                return;
+            }
+
+            const unique = Math.random().toString(36).substring(2, 10).toUpperCase();
+            const zetraID = `${name}-${unique}`;
+
+            const box = document.getElementById("resultBox");
+            box.style.display = "block";
+            box.innerHTML = `
+                <strong>Your Zetra ID:</strong><br><br>
+                ${zetraID}
+            `;
+        }
+    </script>
+
+</body>
+</html>
