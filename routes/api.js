@@ -1,26 +1,16 @@
-// Simple backend simulation for your SaaS
-
-// When the user clicks "Submit"
-function submitMessage() {
-    const userInput = document.getElementById("userInput").value;
-
-    if (userInput.trim() === "") {
-        alert("Please type something first!");
-        return;
-    }
-
-    // Display loading
-    document.getElementById("responseBox").innerHTML =
-        "⏳ Processing…";
-
-    // Simulate SaaS backend response
-    setTimeout(() => {
-        document.getElementById("responseBox").innerHTML =
-            "🔥 Your result: " + generateResponse(userInput);
-    }, 1500);
+function showApp() {
+    document.getElementById("app").style.display = "block";
 }
 
-// Fake backend logic (You can change this later)
-function generateResponse(text) {
-    return "This SaaS processed: \"" + text + "\" 👌";
+function runScan() {
+    let statusBox = document.getElementById("status-box");
+    let result = document.getElementById("scan-result");
+
+    statusBox.innerText = "Running system scan…";
+    result.innerText = "";
+
+    setTimeout(() => {
+        statusBox.innerText = "Identity Verified";
+        result.innerText = "Zetra Core scan complete. Your ID is synced to global protocol.";
+    }, 2000);
 }
