@@ -1,64 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zetra — One ID. One World. One You.</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZETRA</title>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    .container {
-      padding: 60px 20px;
-    }
-    h1 {
-      font-size: 40px;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-    }
-    p {
-      font-size: 20px;
-      margin-bottom: 40px;
-      opacity: 0.8;
-      line-height: 1.5;
-    }
-    .button {
-      background: #0d6efd;
-      padding: 15px 30px;
-      border-radius: 6px;
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-      display: inline-block;
-      transition: 0.3s;
-    }
-    .button:hover {
-      background: #084298;
-    }
-    footer {
-      margin-top: 60px;
-      opacity: 0.5;
-      font-size: 14px;
-    }
-  </style>
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px 10px;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
+
+        button {
+            background: #006CFF;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+        }
+
+        #app {
+            margin-top: 40px;
+            padding: 20px;
+            border: 1px solid #222;
+            border-radius: 10px;
+            background: #0a0a0a;
+            display: none; /* hidden until button is clicked */
+        }
+
+        #status-box {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #00c853;
+        }
+
+        #scan-result {
+            margin-top: 10px;
+            color: #aaa;
+            font-size: 16px;
+        }
+    </style>
 </head>
+
 <body>
 
-  <div class="container">
     <h1>ZETRA</h1>
+
     <p>One ID. One World. One You.<br>
     Zetra Core is the foundation of global identity — the next era of technology.</p>
 
-    <a class="button" href="#">Coming Soon</a>
+    <button onclick="showApp()">Launch Zetra Core</button>
 
-    <footer>© 2025 Zetra Core</footer>
-  </div>
+    <!-- The real app UI -->
+    <div id="app">
+        <h2>Zetra Core Status</h2>
+
+        <div id="status-box">System Idle…</div>
+
+        <button onclick="runScan()" style="margin-top:25px;">Run Identity Scan</button>
+
+        <div id="scan-result"></div>
+    </div>
+
+    <script src="app.js"></script>
 
 </body>
-  </html>
+</html>
