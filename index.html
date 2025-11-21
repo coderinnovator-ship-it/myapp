@@ -1,87 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZETRA</title>
-
-    <style>
-        body {
-            margin: 0;
-            background: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px 10px;
-        }
-
-        h1 {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto 20px auto;
-        }
-
-        button {
-            background: #006CFF;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 8px;
-            font-size: 18px;
-            color: white;
-            cursor: pointer;
-        }
-
-        #app {
-            margin-top: 40px;
-            padding: 20px;
-            border: 1px solid #222;
-            border-radius: 10px;
-            background: #0a0a0a;
-            display: none; /* hidden until button is clicked */
-        }
-
-        #status-box {
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #00c853;
-        }
-
-        #scan-result {
-            margin-top: 10px;
-            color: #aaa;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZETRA — Identity</title>
+  <style>
+    :root{
+      --bg:#01050a;
+      --panel:#071023;
+      --accent:#0ea5ff;
+      --muted:#9aa6b2;
+      --glass: rgba(255,255,255,0.03);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Arial,sans-serif;
+      background:linear-gradient(180deg,var(--bg),#000);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+    .card{
+      width:100%;
+      max-width:520px;
+      background:linear-gradient(180deg,var(--panel), #05060a);
+      border-radius:14px;
+      padding:28px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    header{ text-align:center; margin-bottom:18px }
+    h1{ margin:0; font-size:34px; letter-spacing:3px }
+    p.lead{ color:var(--muted); margin-top:8px; font-size:15px }
+    .controls{ display:flex; gap:12px; justify-content:center; margin-top:18px; flex-wrap:wrap }
+    .btn{
+      background:var(--accent);
+      color:#021026;
+      border:none;
+      padding:12px 20px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(14,165,255,0.12);
+    }
+    .btn.ghost{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      font-weight:600;
+    }
+    .id-card{
+      margin-top:22px;
+      padding:18px;
+      border-radius:10px;
+      background:var(--glass);
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .avatar{
+      width:72px; height:72px; border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),#7cf0ff);
+      display:flex; align-items:center; justify-content:center;
+      color:#021026; font-weight:800; font-size:20px;
+    }
+    .meta{ flex:1 }
+    .meta .label{ color:var(--muted); font-size:13px }
+    .meta .value{ font-size:16px; margin-top:4px; font-weight:700 }
+    .muted-small{ color:var(--muted); font-size:13px; margin-top:8px }
+    footer { text-align:center; margin-top:18px; color:var(--muted); font-size:13px }
+    @media (max-width:420px){ .card{ padding:18px } h1{font-size:28px} .avatar{width:60px;height:60px} }
+  </style>
 </head>
-
 <body>
+  <div class="card" role="main">
+    <header>
+      <h1>ZETRA</h1>
+      <p class="lead">One ID. One World. One You. Activate your Zetra identity — private, portable, future-ready.</p>
+    </header>
 
-    <h1>ZETRA</h1>
+    <div style="text-align:center">
+      <div class="controls">
+        <button class="btn" id="createBtn">Create my Zetra ID</button>
+        <button class="btn ghost" id="recoverBtn">Recover / Load</button>
+      </div>
 
-    <p>One ID. One World. One You.<br>
-    Zetra Core is the foundation of global identity — the next era of technology.</p>
-
-    <button onclick="showApp()">Launch Zetra Core</button>
-
-    <!-- The real app UI -->
-    <div id="app">
-        <h2>Zetra Core Status</h2>
-
-        <div id="status-box">System Idle…</div>
-
-        <button onclick="runScan()" style="margin-top:25px;">Run Identity Scan</button>
-
-        <div id="scan-result"></div>
+      <div id="notice" class="muted-small" style="margin-top:12px">No account required. Your identity stays on your device unless you choose to share it.</div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- identity card -->
+    <div id="cardWrap" style="display:none">
+      <div class="id-card" id="idCard">
+        <div class="avatar" id="avatar">Z</div>
+        <div class="meta">
+          <div class="label">Zetra ID</div>
+          <div class="value" id="zetraId">—</div>
+          <div class="muted-small" id="createdAt">—</div>
+        </div>
+        <div>
+          <button class="btn ghost" id="copyBtn">Copy</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
+        <button class="btn" id="exportBtn">Export Profile</button>
+        <button class="btn ghost" id="resetBtn">Reset</button>
+      </div>
+    </div>
 
+    <footer>© 2025 Zetra Core</footer>
+  </div>
+
+  <script src="app.js"></script>
 </body>
-</html>
+            </html>
