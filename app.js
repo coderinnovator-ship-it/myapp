@@ -1,98 +1,106 @@
-/* ZETRA — Identity Engine (client-side only) */
+// -----------------------------
+// ZETRA ID – Local Identity System
+// -----------------------------
 
-const createBtn = document.getElementById("createBtn");
-const recoverBtn = document.getElementById("recoverBtn");
-const copyBtn = document.getElementById("copyBtn");
-const exportBtn = document.getElementById("exportBtn");
-const resetBtn = document.getElementById("resetBtn");
+const idOutput = document.getElementById("idOutput");
+const createBtn = document.getElementById("createID");
+const loadBtn = document.getElementById("loadID");
+const copyBtn = document.getElementById("copyID");
+const exportBtn = document.getElementById("exportID");
+const resetBtn = document.getElementById("resetID");
 
-const cardWrap = document.getElementById("cardWrap");
-const avatar = document.getElementById("avatar");
-const zetraIdElem = document.getElementById("zetraId");
-const createdAtElem = document.getElementById("createdAt");
-
-function randomSegment(length) {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let out = "";
-  for (let i = 0; i < length; i++) out += chars[Math.floor(Math.random() * chars.length)];
-  return out;
-}
-
+// Generate a random unique Zetra ID
 function generateZetraID() {
-  return (
-    "ZET-" +
-    randomSegment(4) + "-" +
-    randomSegment(4) + "-" +
-    randomSegment(3)
-  );
+  const base = "ZETRA-";
+  const random = crypto.getRandomValues(new Uint32Array(3))
+    .join("-")
+    .toString();
+  return base + random;
 }
 
-function saveProfile(obj) {
-  localStorage.setItem("zetraProfile", JSON.stringify(obj));
+// Display helper
+function showID(id) {
+  idOutput.textContent = id;
 }
 
-function loadProfile() {
-  const raw = localStorage.getItem("zetraProfile");
-  if (!raw) return null;
+// Save locally
+function saveID(id) {
+  localStorage.setItem("zetra_id", id);
+}
+
+// Load locally
+function loadIDFromStorage() {
+  return localStorage.getItem("zetra_id");
+}
+
+// -----------------------------
+// BUTTON ACTIONS
+// -----------------------------
+
+// CREATE ID
+createBtn.addEventListener("click", () => {
+  const newID = generateZetraID();
+  saveID(newID);
+  showID(newID);
+  alert("Zetra ID created successfully!");
+});
+
+// LOAD ID
+loadBtn.addEventListener("click", () => {
+  const saved = loadIDFromStorage();
+  if (!saved) {
+    alert("No ID found on this device.");
+    return;
+  }
+  showID(saved);
+  alert("Zetra ID loaded!");
+});
+
+// COPY ID
+copyBtn.addEventListener("click", async () => {
+  const text = idOutput.textContent.trim();
+  if (!text) return alert("No ID to copy.");
   try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
+    await navigator.clipboard.writeText(text);
+    alert("Copied!");
+  } catch (e) {
+    alert("Failed to copy.");
   }
-}
+});
 
-function renderProfile(profile) {
-  cardWrap.style.display = "block";
-  zetraIdElem.textContent = profile.id;
-  createdAtElem.textContent = "Created: " + profile.created;
-  avatar.textContent = profile.id[4]; 
-}
+// EXPORT PROFILE
+exportBtn.addEventListener("click", () => {
+  const saved = loadIDFromStorage();
+  if (!saved) return alert("No ID to export.");
 
-createBtn.onclick = () => {
-  const profile = {
-    id: generateZetraID(),
-    created: new Date().toLocaleString()
+  const data = {
+    zetra_id: saved,
+    exported_at: new Date().toISOString()
   };
-  saveProfile(profile);
-  renderProfile(profile);
-};
 
-recoverBtn.onclick = () => {
-  const profile = loadProfile();
-  if (!profile) {
-    alert("No saved identity found on this device.");
-    return;
-  }
-  renderProfile(profile);
-};
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json"
+  });
 
-copyBtn.onclick = () => {
-  navigator.clipboard.writeText(zetraIdElem.textContent);
-  alert("Zetra ID copied");
-};
-
-exportBtn.onclick = () => {
-  const profile = loadProfile();
-  if (!profile) {
-    alert("Nothing to export.");
-    return;
-  }
-
-  const blob = new Blob([JSON.stringify(profile, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
   a.href = url;
   a.download = "zetra-profile.json";
   a.click();
-
   URL.revokeObjectURL(url);
-};
+});
 
-resetBtn.onclick = () => {
-  localStorage.removeItem("zetraProfile");
-  window.location.reload();
-};
+// RESET ID
+resetBtn.addEventListener("click", () => {
+  localStorage.removeItem("zetra_id");
+  idOutput.textContent = "";
+  alert("Your Zetra ID has been reset on this device.");
+});
 
-const existing = loadProfile();
-if (existing) renderProfile(existing);
+// -----------------------------
+// AUTO LOAD IF EXISTS
+// -----------------------------
+const autoLoad = loadIDFromStorage();
+if (autoLoad) {
+  showID(autoLoad);
+}
