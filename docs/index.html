@@ -1,56 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zetra ID Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: #fff;
-            text-align: center;
-            padding: 40px;
-        }
-        .container {
-            background: #222;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            margin: auto;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #0af;
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-        }
-        #output {
-            margin-top: 20px;
-            background: #000;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 20px;
-            word-wrap: break-word;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZETRA — One ID. One World. One You.</title>
+  <meta name="theme-color" content="#02050a" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Zetra ID Generator</h1>
-        <button onclick="generate()">Generate ID</button>
-        <div id="output"></div>
-    </div>
+  <main class="wrap">
+    <section class="card" role="main" aria-live="polite">
+      <header class="card-head">
+        <div class="brand">ZETRA</div>
+        <div class="tag">One ID. One World. One You.</div>
+      </header>
 
-    <script>
-        function generate() {
-            const id = "ZETRA-" + Math.random().toString(36).substring(2, 10).toUpperCase();
-            document.getElementById("output").innerText = id;
-        }
-    </script>
+      <p class="lead">Activate your Zetra identity — private, portable, future-ready.</p>
+
+      <div class="controls">
+        <button id="createBtn" class="btn primary">Create my Zetra ID</button>
+        <button id="recoverBtn" class="btn ghost">Recover / Load</button>
+      </div>
+
+      <div id="notice" class="muted">No account required. Your identity stays on your device unless you choose to share it.</div>
+
+      <!-- identity card (hidden until created) -->
+      <div id="cardWrap" class="idwrap hidden" aria-hidden="true">
+        <div class="idcard" role="region" aria-label="Zetra identity card">
+          <div class="avatar" id="avatar">Z</div>
+          <div class="meta">
+            <div class="label">Zetra ID</div>
+            <div class="value" id="zetraId">—</div>
+            <div class="small" id="createdAt">—</div>
+          </div>
+          <div class="actions-col">
+            <button class="btn ghost small" id="copyBtn">Copy</button>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn primary" id="exportBtn">Export Profile</button>
+          <button class="btn ghost" id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <footer class="foot">© 2025 Zetra Core</footer>
+    </section>
+  </main>
+
+  <!-- SETUP MODAL -->
+  <div id="setupModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <h2>Create your Zetra identity</h2>
+      <p class="muted">We will generate a secure identity file you can save and import anytime.</p>
+
+      <div id="setupForm" class="form" aria-label="Setup form">
+        <label>Display name
+          <input id="displayName" type="text" placeholder="e.g. Connect" maxlength="32" required />
+        </label>
+
+        <div class="color-row" aria-hidden="false">
+          <label class="color-option"><input type="radio" name="color" value="#0ea5ff" checked><span style="background:#0ea5ff"></span></label>
+          <label class="color-option"><input type="radio" name="color" value="#7c3aed"><span style="background:#7c3aed"></span></label>
+          <label class="color-option"><input type="radio" name="color" value="#22c55e"><span style="background:#22c55e"></span></label>
+          <label class="color-option"><input type="radio" name="color" value="#f59e0b"><span style="background:#f59e0b"></span></label>
+        </div>
+
+        <div class="form-actions">
+          <button id="continueBtn" class="btn primary" type="button">Continue</button>
+          <button id="cancelSetup" class="btn ghost" type="button">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- hidden file input for recover -->
+  <input id="fileInput" type="file" accept=".json,.zetra.json,application/json" class="hidden" />
+
+  <script src="app.js"></script>
 </body>
 </html>
